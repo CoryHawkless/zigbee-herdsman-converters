@@ -4668,6 +4668,15 @@ const devices = [
         extend: generic.light_onoff_brightness_colortemp,
     },
 
+   //Corys Alchemy Apollo vIII
+   {
+        zigbeeModel: ['AL8TC13W-AP'],
+        model: 'AL8TC13W-AP',
+        vendor: 'Apollo',
+        description: 'eBay Downlight with colour temp',
+        extend: generic.light_onoff_brightness_colortemp,
+    },
+
     // ilux
     {
         zigbeeModel: ['LEColorLight'],
@@ -4840,7 +4849,24 @@ const devices = [
             await configureReporting.batteryPercentageRemaining(endpoint);
             await configureReporting.batteryAlarmState(endpoint);
         },
+    },  
+    {
+        zigbeeModel: ['CO_V16'],
+        model: 'M414-7E',
+        description: 'Smart carbon monoxide sensor',
+        supports: 'carbon monoxide',
+        vendor: 'HEIMAN',
+        fromZigbee: [fz.heiman_carbon_monoxide, fz.battery_200],
+        toZigbee: [],
+        meta: {configureKey: 1},
+        configure: async (device, coordinatorEndpoint) => {
+            const endpoint = device.getEndpoint(1);
+            await bind(endpoint, coordinatorEndpoint, ['genPowerCfg']);
+            await configureReporting.batteryPercentageRemaining(endpoint);
+            await configureReporting.batteryAlarmState(endpoint);
+        },
     },
+
     {
         zigbeeModel: ['PIRSensor-N', 'PIRSensor-EM'],
         model: 'HS3MS',
@@ -5147,6 +5173,38 @@ const devices = [
             await configureReporting.batteryVoltage(endpoint);
         },
     },
+   //HEIMAN
+   {
+        zigbeeModel: ['TH-T_V15'],
+        model: 'HS1HT-M',
+        vendor: 'HEIMAN',
+        description: 'Smart temperature & humidity Sensor',
+        supports: 'temperature and humidity',
+        fromZigbee: [fz.temperature, fz.humidity, fz.battery_3V],
+        toZigbee: [],
+        meta: {configureKey: 2},
+        configure: async (device, coordinatorEndpoint) => {
+            const endpoint1 = device.getEndpoint(1);
+            await bind(endpoint1, coordinatorEndpoint, ['msTemperatureMeasurement']);
+            const endpoint2 = device.getEndpoint(2);
+            await bind(endpoint2, coordinatorEndpoint, ['msRelativeHumidity', 'genPowerCfg']);
+            await configureReporting.temperature(endpoint1);
+            await configureReporting.humidity(endpoint2);
+            await configureReporting.batteryVoltage(endpoint2);
+            await configureReporting.batteryPercentageRemaining(endpoint2);
+        },
+    },
+
+    {
+        zigbeeModel: ['PIR_TPV16'],
+        model: 'M414-12',
+        vendor: 'HEIMAN',
+        description: 'HEIMAN Smart Motion Sensor',
+        supports: 'motion',
+        fromZigbee: [fz.iaszone_occupancy_3],
+        toZigbee: [],
+    },
+
 
     // GS
     {

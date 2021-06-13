@@ -2039,6 +2039,18 @@ const converters = {
             };
         },
     },
+    iaszone_occupancy_3: {
+        cluster: 'ssIasZone',
+        type: 'commandStatusChangeNotification',
+        convert: (model, msg, publish, options, meta) => {
+            const zoneStatus = msg.data.zonestatus;
+            return {
+                occupancy: (zoneStatus & 1<<0) > 0, // Bit 0 = Presence Indication
+                tamper: (zoneStatus & 1<<2) > 0, // Bit 2 = Tamper status
+		rd: zoneStatus
+            };
+        },
+    },
     iaszone_occupancy_2: {
         cluster: 'ssIasZone',
         type: 'commandStatusChangeNotification',
