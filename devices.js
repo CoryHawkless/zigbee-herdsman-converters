@@ -469,6 +469,16 @@ const legrand = {
 };
 
 const devices = [
+
+   {
+    zigbeeModel: ['TS0601'],
+    model: 'TS0601',
+    vendor: 'Tuya',
+    description: 'Wall-mount thermostat',
+    fromZigbee: [fz.hy_thermostat, fz.ignore_basic_report, fz.hy_set_time_request],
+    toZigbee: [tz.hy_thermostat],
+},
+
     // Xiaomi
     {
         zigbeeModel: ['lumi.light.aqcn02'],
